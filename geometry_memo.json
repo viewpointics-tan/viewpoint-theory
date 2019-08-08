@@ -1,0 +1,49 @@
+[
+  {
+    "a": "obj",
+    "Type": "pos",
+    "point": "obj",
+    "b": "obj",
+    "Line": "pos",
+    "line": "obj"
+  },
+  [
+    [
+      [
+        [
+          "a",
+          "Type"
+        ],
+        [
+          "point"
+        ]
+      ],
+      [
+        [
+          "b",
+          "Type"
+        ],
+        [
+          "point"
+        ]
+      ]
+    ],
+    [
+      [
+        [
+          [
+            "b",
+            [
+              "Line",
+              "a"
+            ]
+          ],
+          "Type"
+        ],
+        [
+          "line"
+        ]
+      ]
+    ]
+  ]
+]

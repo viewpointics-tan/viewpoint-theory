@@ -1,0 +1,37 @@
+<!-- これは最終形式 -->
+<rep>
+  <bra>
+    <set>
+      <rep>
+        <obj>
+          <obj>a</obj>
+          <pos>Type</pos>
+        </obj>
+        <obj>point</obj>
+      </rep>
+      <rep>
+        <obj>
+          <obj>b</obj>
+          <pos>Type</pos>
+        </obj>
+        <obj>point</obj>
+      </rep>
+    </set>
+    <pos>Includence1</pos>
+  </bra>
+  <set>
+    <rep>
+      <obj>
+        <obj>
+          <obj>b</obj>
+          <pos>
+            <pos>Line</pos>
+            <obj>a</obj>
+          </pos>
+        </obj>
+        <pos>Type</pos>
+      </obj>
+      <obj>line</obj>
+    </rep>
+  </set>
+</rep>
