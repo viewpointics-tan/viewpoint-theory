@@ -1,7 +1,4 @@
-const parser = require('./parser')
-const parseString = require('xml2js').parseString;
-const xml = parser.parse("(a,_s)")
+const parser = require('./parser0818')
+const json = parser.parse("((a)',z)'")
 
-parseString(xml, function (err, result) {
-    console.log(result);
-});
+console.dir(JSON.stringify(json))
