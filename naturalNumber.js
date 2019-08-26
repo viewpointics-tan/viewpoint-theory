@@ -1,13 +1,14 @@
 const parser = require("./parser0823");
-const array = parser.parse("((v0,f)',f)'");
+const array = parser.parse("(v0,(addA,addA)')'");
 
 const list = {
   v0: "v0",
   id: x => x,
-  addq: x => x + "q",
   lift: x => [x],
+  addA: x => x.concat("a"),
   f: x => [x, "f"]
 };
+const keys = Object.keys(list);
 
 function eva(x) {
   if (x[2] === "'") {
@@ -46,17 +47,33 @@ function quote(x) {
 }
 
 function apply(x, y) {
-  if (typeof y == "function") {
-    return y(x);
+  // console.log(x, y);
+  if (typeof y === "function") {
+    if (typeof x === "function") {
+      fun = function(arg) {
+        return y(x(arg));
+      };
+      return fun;
+    } else {
+      return y(x);
+    }
   } else if (typeof x !== "function" && typeof y[0] === "function") {
-    return apply(y[0](x), y[1]);
+    if (y.length === 1) {
+      return [y[0](x)];
+    } else {
+      return apply(getVal(y[0](x)), getVal(y[1]));
+    }
   } else {
     return [x, y];
   }
 }
 
 function getVal(x) {
-  if (list[x] !== undefined) {
+  if (
+    keys.find(el => {
+      return el === x;
+    }) !== undefined
+  ) {
     return list[x];
   } else {
     return x;
