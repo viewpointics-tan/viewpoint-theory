@@ -6,7 +6,7 @@ word = a:letter+ {let st=""; a.forEach(l=>{st += l}); return st}
 
 prime = "'"
 
-letter = [a-zA-Z0-9_]
+letter = [a-zA-Z0-9_']
 
 _ "whitespace"
   = [ \t\n\r]*

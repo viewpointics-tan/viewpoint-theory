@@ -153,7 +153,7 @@ module.exports = /*
         peg$c9 = function(a) {let st=""; a.forEach(l=>{st += l}); return st},
         peg$c10 = "'",
         peg$c11 = peg$literalExpectation("'", false),
-        peg$c12 = /^[a-zA-Z0-9_]/,
+        peg$c12 = /^[a-zA-Z0-9_']/,
         peg$c13 = peg$classExpectation([["a", "z"], ["A", "Z"], ["0", "9"], "_"], false, false),
         peg$c14 = peg$otherExpectation("whitespace"),
         peg$c15 = /^[ \t\n\r]/,
