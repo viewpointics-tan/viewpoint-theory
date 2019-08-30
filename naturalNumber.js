@@ -7,36 +7,33 @@ const list = {
   lift: x => [x],
   addA: x => x.concat("a"),
   f: x => [x, "f"],
-  sub: x => fun(x)
-};
-
-function fun(x) {
-  return function(y) {
-    if (typeof y === "object" && y[1] === "f") {
-      if (typeof x === "object" && x[1] === "f") {
-        return quote([y[0], quote([x[0], "sub"])]);
-      } else if (x === "f") {
-        return y[0];
-      } else if (x === "id") {
-        return y;
-      }
-    } else if (y === "f") {
-      if (x === "id") {
-        return y;
-      } else if (x === "f") {
-        return "id";
-      } else if (typeof x === "object" && x[1] === "f") {
-        return [x[0], "sub"];
-      }
-    } else if (y === "id") {
-      return [x, "sub"];
-    } else if (typeof y === "object" && y[1] === "sub") {
-      if (typeof x === "string" || x[1] !== "sub") {
-        return quote(["id", quote([quote([y, "sub"]), quote([x, "sub"])])]);
-      }
+  sub: (y, x) => {
+    if (y[1] === "f" && x === "f") {
+      return y[0];
     }
-  };
-}
+    if (y === "f" && x === "f") {
+      return "id";
+    }
+    if (x === "id") {
+      return "id";
+    }
+    if (y === "id") {
+      return [x, "sub"];
+    }
+    if (x[1] === "sub" && x[0][1] === "sub") {
+      return x;
+    }
+    if (x[1] !== "sub") {
+      return list.sub(list.sub(y, "f"), list.sub(x, "f"));
+    }
+    if (y[1] !== "sub" && x[1] === "sub") {
+      return list.sub(quote([y, "f"]), list.sub("f", x));
+    }
+    if (y[1] === "sub" && x[1] === "sub") {
+      return list.sub(list.sub("f", y), list.sub("f", x));
+    }
+  }
+};
 
 const keys = Object.keys(list);
 
