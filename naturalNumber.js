@@ -1,5 +1,5 @@
 const parser = require("./parser0823");
-const array = parser.parse("(((f,f),sub),(f,sub)')'");
+const array = parser.parse("((f,dif),(((f,f),f),dif)')'");
 // "((f,f),(f,sub)')'"
 const list = {
   v0: "v0",
@@ -7,30 +7,61 @@ const list = {
   lift: x => [x],
   addA: x => x.concat("a"),
   f: x => [x, "f"],
-  sub: (y, x) => {
-    if (y[1] === "f" && x === "f") {
-      return y[0];
+  isPositive: x => {
+    if (x === "f" || x[1] === "f") {
+      return true;
+    } else if (x[1] === "dif") {
+      return false;
+    } else {
+      throw "argument is not valid number.";
     }
-    if (y === "f" && x === "f") {
-      return "id";
-    }
+  },
+  sum: x => {
     if (x === "id") {
       return "id";
+    } else {
+      return function(y) {
+        if (x === "f") {
+          return quote([y, "f"]);
+        } else if (x[1] === "f") {
+          return list.sum(x[0])(quote([y, "f"]));
+        } else if (list.isPositive(x) === false && list.isPositive(y)) {
+          return list.dif(x[0])(y);
+        } else if (list.isPositive(x) && list.isPositive(y) === false) {
+          return list.dif(y[0])(x);
+        } else if (
+          list.isPositive(x) === false &&
+          list.isPositive(y) === false
+        ) {
+          return [list.sum(x[0])(y[0]), "dif"];
+        }
+      };
     }
-    if (y === "id") {
-      return [x, "sub"];
-    }
-    if (x[1] === "sub" && x[0][1] === "sub") {
-      return x;
-    }
-    if (x[1] !== "sub") {
-      return list.sub(list.sub(y, "f"), list.sub(x, "f"));
-    }
-    if (y[1] !== "sub" && x[1] === "sub") {
-      return list.sub(quote([y, "f"]), list.sub("f", x));
-    }
-    if (y[1] === "sub" && x[1] === "sub") {
-      return list.sub(list.sub("f", y), list.sub("f", x));
+  },
+  dif: x => {
+    if (x === "id") {
+      return "id";
+    } else {
+      return function(y) {
+        if (x === "f" && y === "f") {
+          return "id";
+        } else if (x === "f" && y[1] === "f") {
+          return y[0];
+        } else if (x[1] === "f" && y === "f") {
+          return [x[0], "dif"];
+        } else if (x[1] === "f" && y[1] === "f") {
+          return list.dif(x[0])(y[0]);
+        } else if (list.isPositive(x) === false && list.isPositive(y)) {
+          return list.sum(x[0])(y);
+        } else if (list.isPositive(x) && list.isPositive(y) === false) {
+          return [list.sum(x)(y[0]), "dif"];
+        } else if (
+          list.isPositive(x) === false &&
+          list.isPositive(y) === false
+        ) {
+          return list.dif(y[0])(x[0]);
+        }
+      };
     }
   }
 };

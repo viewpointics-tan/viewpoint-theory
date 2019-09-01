@@ -1,0 +1,32 @@
+(y,(x,dif)')' -> ((y,(f,dif)')',((x,(f,dif)')',dif)')'
+((y,dif),(x,dif)')' -> (((y,f)',dif),((x,(f,dif)')',dif)')'
+(y,((x,dif),dif)')' -> ((y,f)',())
+和がスマートじゃないから場合分けしないといけない
+sumを導入する？
+
+sub: (y, x) => {
+    if (y[1] === "f" && x === "f") {
+      return y[0];
+    }
+    if (y === "f" && x === "f") {
+      return "id";
+    }
+    if (x === "id") {
+      return "id";
+    }
+    if (y === "id") {
+      return [x, "sub"];
+    }
+    if (x[1] === "sub" && x[0][1] === "sub") {
+      return x;
+    }
+    if (x[1] !== "sub") {
+      return list.sub(list.sub(y, "f"), list.sub(x, "f"));
+    }
+    if (y[1] !== "sub" && x[1] === "sub") {
+      return list.sub(quote([y, "f"]), list.sub("f", x));
+    }
+    if (y[1] === "sub" && x[1] === "sub") {
+      return list.sub(list.sub("f", y), list.sub("f", x));
+    }
+  },
