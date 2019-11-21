@@ -1,19 +1,19 @@
 const object = {
-    "vp": [
+  vp: [
+    {
+      vp: [
         {
-            "vp": [
-                {
-                    "vp": {
-                        "pos": "a"
-                    }
-                },
-                {
-                    "pos": "a"
-                }
-            ]
+          vp: {
+            pos: 'a'
+          }
         },
         {
-            "pos": "a"
+          pos: 'a'
         }
-    ]
+      ]
+    },
+    {
+      pos: 'a'
+    }
+  ]
 }
